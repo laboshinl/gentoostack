@@ -1,0 +1,11 @@
+DEPENDENCIES
+  gentoo
+    git: https://github.com/aostanin/chef-gentoo.git
+    revision: 81b48aa88f51c8612afc6b027305c0ca057a5c18
+  keystone
+    path: site-cookbooks/keystone
+
+GRAPH
+  gentoo (0.1.0)
+  keystone (0.1.0)
+    gentoo (>= 0.0.0)

@@ -1,0 +1,8 @@
+{
+  "run_list": [
+    "recipe[keystone]"
+  ],
+  "automatic": {
+    "ipaddress": "195.208.117.220"
+  }
+}
