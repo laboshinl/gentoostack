@@ -1,9 +1,0 @@
-{
-  "run_list": [
-    "recipe[rabbitmq]",
-    "recipe[glance]"
-  ],
-  "automatic": {
-    "ipaddress": "195.208.117.220"
-  }
-}

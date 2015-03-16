@@ -1,1 +1,6 @@
 /cookbooks/
+.project
+.workstation
+*.lock
+/.chef
+/nodes/
