@@ -72,7 +72,7 @@ gentoo_package_use "dev-lang/python" do
   use "sqlite mysql"
 end
 
-gentoo_package_use "sys-auth/keystone" do
+gentoo_package_use "app-admin/glance" do
   use "sqlite mysql -swift"
 end
 
