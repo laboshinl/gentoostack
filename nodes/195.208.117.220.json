@@ -1,5 +1,6 @@
 {
   "run_list": [
+    "recipe[rabbitmq]",
     "recipe[glance]"
   ],
   "automatic": {

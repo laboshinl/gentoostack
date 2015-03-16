@@ -6,10 +6,14 @@ DEPENDENCIES
     path: site-cookbooks/glance
   keystone
     path: site-cookbooks/keystone
+  rabbitmq
+    path: site-cookbooks/rabbitmq
 
 GRAPH
   gentoo (0.1.0)
   glance (0.1.0)
     gentoo (>= 0.0.0)
   keystone (0.1.0)
+    gentoo (>= 0.0.0)
+  rabbitmq (0.1.0)
     gentoo (>= 0.0.0)
