@@ -1,0 +1,1 @@
+default[:mariadb][:password][:root] = "my5uper5ecret"

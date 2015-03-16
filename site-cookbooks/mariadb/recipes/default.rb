@@ -16,3 +16,40 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+include_recipe "gentoo"
+
+gentoo_package_keywords "dev-db/mariadb" do
+  keywords "~amd64"
+end
+
+package "dev-db/mariadb" do
+  action :upgrade
+end
+
+template "/root/.my.cnf" do
+  source "root/dotmy.cnf.erb"
+  owner "root"
+  group "root"
+  mode "0600"
+  variables(
+    :password => node[:mariadb][:password][:root]
+  )
+end
+
+template "/etc/mysql/my.cnf" do
+  source "etc/mysql/my.cnf.erb"
+  action :create
+end
+
+execute "emerge --config dev-db/mariadb" do
+  user  "root"
+  group "root"
+  creates "/var/lib/mysql/mysql"
+end
+
+service "mysql" do
+  supports :status => true, :restart => true
+  action [ :enable, :start ]
+  subscribes :restart, resources(:package => "dev-db/mariadb", :template => "/etc/mysql/my.cnf")
+end
