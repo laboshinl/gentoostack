@@ -19,40 +19,44 @@
 include_recipe "gentoo"
 
 packages = [
-  "dev-python/oslo-config",
-  "dev-python/keystonemiddleware",
+  "dev-python/repoze-lru",
   "dev-python/pbr",
-  "dev-python/paste",
-  "dev-python/netifaces",
-  "dev-python/kombu",
-  "dev-python/jsonschema",
-  "dev-python/python-keystoneclient",
-  "dev-python/oslo-db",
-  "dev-python/pyjwt",
-  "dev-python/alembic",
+  "dev-python/oslo-vmware",
+  "dev-python/oslo-serialization",
   "dev-python/iso8601",
+  "dev-python/python-keystoneclient",
+  "dev-python/oslo-utils",
+  "dev-python/oslo-config",
+  "dev-python/retrying",
+  "dev-python/sqlalchemy-migrate", 
+  "dev-python/paste",
+  "dev-python/kombu",
+  "app-admin/glance",
+  "dev-python/routes", 
+  "dev-python/keystonemiddleware",
+  "dev-python/WSME",
+  "dev-python/python-swiftclient",
+  "dev-python/oslo-i18n",
+  "dev-python/glance_store",
+  "dev-python/oslo-context",
   "dev-python/oslo-middleware",
   "dev-python/stevedore",
-  "dev-python/oslo-context",
-  "dev-python/posix_ipc",
-  "dev-python/prettytable",
-  "dev-python/oslo-serialization",
-  "dev-python/repoze-lru",
-  "dev-python/netaddr",
-  "dev-python/dogpile-core",
-  "dev-python/dogpile-cache",
-  "dev-python/oslo-utils",
-  "dev-python/sqlalchemy-migrate",
-  "dev-python/eventlet",
   "dev-python/anyjson",
-  "dev-python/py-amqp",
+  "dev-python/ordereddict",
+  "dev-python/python-cinderclient",
+  "dev-python/boto",
+  "dev-python/netifaces",
+  "dev-python/prettytable",
+  "dev-python/posix_ipc",
+  "dev-python/osprofiler",
+  "dev-python/suds",
   "dev-python/oslo-messaging",
-  "dev-python/keystone",
-  "dev-python/routes",
-  "dev-python/oslo-i18n",
-  "dev-python/oauthlib",
-  "dev-python/pycadf",
-  "sys-auth/keystone"
+  "dev-python/eventlet",
+  "dev-python/oslo-db",
+  "dev-python/jsonschema",
+  "dev-python/netaddr",
+  "dev-python/py-amqp",
+  "dev-python/alembic"
 ]
 
 packages.each do |package|
@@ -69,9 +73,9 @@ gentoo_package_use "dev-lang/python" do
 end
 
 gentoo_package_use "sys-auth/keystone" do
-  use "sqlite mysql"
+  use "sqlite mysql -swift"
 end
 
-package "sys-auth/keystone" do
+package "app-admin/glance" do
   action :upgrade
 end
