@@ -26,8 +26,14 @@ package "net-misc/rabbitmq-server" do
   action :upgrade
 end
 
+template "/etc/rabbitmq/rabbitmq.config" do
+  source "etc/rabbitmq/rabbitmq.config.erb"
+  action :create
+end
+
 service "rabbitmq" do
   supports :status => true, :restart => true
   action [ :enable, :start ]
+  subscribes :restart, resources(:template => "/etc/rabbitmq/rabbitmq.config")
   subscribes :restart, resources(:package => "net-misc/rabbitmq-server")
 end
