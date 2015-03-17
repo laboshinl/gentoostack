@@ -23,8 +23,31 @@ gentoo_package_keywords "dev-db/mariadb" do
   keywords "~amd64"
 end
 
-package "dev-db/mariadb" do
-  action :upgrade
+packages = %w[
+  dev-libs/libaio 
+  dev-lang/perl 
+  perl-core/Data-Dumper 
+  virtual/perl-Data-Dumper 
+  perl-core/File-Temp 
+  virtual/perl-File-Temp
+  dev-perl/Net-Daemon 
+  virtual/perl-Storable 
+  virtual/perl-File-Spec 
+  virtual/perl-Sys-Syslog 
+  virtual/perl-Time-HiRes 
+  virtual/perl-Getopt-Long 
+  dev-perl/PlRPC dev-perl/DBI 
+  app-arch/libarchive 
+  dev-db/mysql-init-scripts 
+  net-misc/curl dev-util/cmake 
+  dev-db/mariadb virtual/mysql 
+  dev-perl/DBD-mysql
+]
+
+packages.each do |pkg|
+  package pkg do
+    action :upgrade
+  end
 end
 
 template "/root/.my.cnf" do
