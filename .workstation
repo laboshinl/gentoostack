@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="ASCII"?>
-<org.limepepepper.chefclipse:Repository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.limepepepper.chefclipse="http://limepepper.org/v1/chefclipse/workstation" name="my_gentoo" ID="org.eclipse.emf.ecore.impl.EClassImpl@3ab80d25 (name: Repository) (instanceClassName: null) (abstract: false, interface: false)-my_gentoo-"/>
+<org.limepepepper.chefclipse:Repository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.limepepepper.chefclipse="http://limepepper.org/v1/chefclipse/workstation" name="my_gentoo" ID="org.eclipse.emf.ecore.impl.EClassImpl@170364f2 (name: Repository) (instanceClassName: null) (abstract: false, interface: false)-my_gentoo-"/>

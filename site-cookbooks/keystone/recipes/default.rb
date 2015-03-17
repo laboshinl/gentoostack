@@ -70,7 +70,7 @@ gentoo_package_use "dev-lang/python" do
 end
 
 gentoo_package_use "sys-auth/keystone" do
-  use "sqlite mysql"
+  use "sqlite -mysql"
 end
 
 package "sys-auth/keystone" do

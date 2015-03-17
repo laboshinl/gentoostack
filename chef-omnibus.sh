@@ -1,5 +1,6 @@
 #!/bin/bash
 #Installs chef-12.1.1 on gentoo
+locale-gen -G "en_US.UTF-8 UTF-8"
 mkdir -p /usr/local/portage/app-admin/chef-omnibus
 mkdir -p /usr/local/portage/metadata
 echo "masters = gentoo" >> /usr/local/portage/metadata/layout.conf

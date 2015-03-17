@@ -33,7 +33,9 @@ template "/root/.my.cnf" do
   group "root"
   mode "0600"
   variables(
-    :password => node[:mariadb][:password][:root]
+    :password => node[:mariadb][:password][:root],
+    :host => "127.0.0.1",
+    :encoding => "utf8"
   )
 end
 
