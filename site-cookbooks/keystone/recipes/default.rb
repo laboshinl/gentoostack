@@ -70,9 +70,24 @@ gentoo_package_use "dev-lang/python" do
 end
 
 gentoo_package_use "sys-auth/keystone" do
-  use "sqlite -mysql"
+  use "sqlite mysql"
 end
 
 package "sys-auth/keystone" do
   action :upgrade
+end
+
+execute "keystone-manage db_sync" do
+  action :nothing
+  subscribes :run, "package[sys-auth/keystone]", :immediately
+end
+
+template "/etc/keystone/keystone.conf" do
+  action :create
+  source "etc/keystone/keystone.conf.erb"
+end
+
+service "keystone" do
+  action [:enable, :start]
+  subscribes :restart, "template[/etc/keystone/keystone.conf]"  
 end
