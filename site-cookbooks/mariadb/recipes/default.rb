@@ -43,11 +43,20 @@ packages = %w[
   dev-db/mariadb virtual/mysql 
   dev-perl/DBD-mysql
 ]
-
+=begin
 packages.each do |pkg|
   package pkg do
     action :upgrade
   end
+end
+=end
+
+gentoo_package_use "dev-db/mariadb" do
+  use "-perl"
+end
+
+package "dev-db/mariadb" do
+  action :upgrade
 end
 
 template "/root/.my.cnf" do
