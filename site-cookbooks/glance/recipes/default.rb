@@ -16,87 +16,84 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "gentoo"
-include_recipe "mysql::client"
-include_recipe "keystone::empty"
+include_recipe 'gentoo'
+include_recipe 'mysql::client'
+include_recipe 'keystone::empty'
 
-unless node[:gentoo][:use_flags].include?("sqlite")
-  node.default[:gentoo][:use_flags] << "sqlite"
-  generate_make_conf "added mysql USE flag"
+unless node[:gentoo][:use_flags].include?('sqlite')
+  node.default[:gentoo][:use_flags] << 'sqlite'
+  generate_make_conf 'added mysql USE flag'
 end
 
-gentoo_package_mask "~dev-python/routes-2.0" do
+gentoo_package_mask '~dev-python/routes-2.0' do
   action :create
 end
 
-packages = [
-  "dev-python/glance_store",
-  "dev-python/python-keystoneclient",
-  "dev-python/sqlalchemy-migrate",
-  "dev-python/oslo-messaging",
-  "dev-python/retrying",
-  "dev-python/repoze-lru",
-  "dev-python/alembic",
-  "dev-python/iso8601",
-  "dev-python/posix_ipc",
-  "dev-python/routes",
-  "dev-python/eventlet",
-  "dev-python/jsonschema",
-  "dev-python/oslo-middleware",
-  "dev-python/oslo-i18n",
-  "dev-python/paste",
-  "dev-python/boto",
-  "dev-python/oslo-db",
-  "dev-python/oslo-vmware",
-  "dev-python/WSME",
-  "dev-python/kombu",
-  "dev-python/python-cinderclient",
-  "dev-python/suds",
-  "dev-python/osprofiler",
-  "dev-python/netaddr",
-  "dev-python/ordereddict",
-  "app-admin/glance",
-  "dev-python/netifaces",
-  "dev-python/oslo-context",
-  "dev-python/py-amqp",
-  "dev-python/stevedore",
-  "dev-python/anyjson",
-  "dev-python/pbr",
-  "dev-python/keystonemiddleware",
-  "dev-python/oslo-serialization",
-  "dev-python/oslo-config",
-  "dev-python/oslo-utils",
-  "dev-python/python-swiftclient",
-  #Glanceclient
-  "dev-python/jsonpatch",
-  "dev-python/warlock",
-  "dev-python/python-glanceclient",
-  "dev-python/jsonpointer"
+packages = %w[
+  dev-python/glance_store
+  dev-python/python-keystoneclient
+  dev-python/sqlalchemy-migrate
+  dev-python/oslo-messaging
+  dev-python/retrying
+  dev-python/repoze-lru
+  dev-python/alembic
+  dev-python/iso8601
+  dev-python/posix_ipc
+  dev-python/routes
+  dev-python/eventlet
+  dev-python/jsonschema
+  dev-python/oslo-middleware
+  dev-python/oslo-i18n
+  dev-python/paste
+  dev-python/boto
+  dev-python/oslo-db
+  dev-python/oslo-vmware
+  dev-python/WSME
+  dev-python/kombu
+  dev-python/python-cinderclient
+  dev-python/suds
+  dev-python/osprofiler
+  dev-python/netaddr
+  dev-python/ordereddict
+  app-admin/glance
+  dev-python/netifaces
+  dev-python/oslo-context
+  dev-python/py-amqp
+  dev-python/stevedore
+  dev-python/anyjson
+  dev-python/pbr
+  dev-python/keystonemiddleware
+  dev-python/oslo-serialization
+  dev-python/oslo-config
+  dev-python/oslo-utils
+  dev-python/python-swiftclient
+  dev-python/jsonpatch
+  dev-python/warlock
+  dev-python/python-glanceclient
+  dev-python/jsonpointer
 ]
 
-packages.each_with_index do |package, index|
-  gentoo_package_keywords package do
-    keywords "~amd64"
-  end
+packages.each do package
+  gentoo_package_keywords(package) { keywords '~amd64' }
 end
 
-gentoo_package_use "app-admin/glance" do
-  use "swift"
+gentoo_package_use 'app-admin/glance' do
+  use 'swift'
 end
 
-package "app-admin/glance" do
+package 'app-admin/glance' do
   action :upgrade
 end
 
-package "dev-python/mysql-python" do
+package 'dev-python/mysql-python' do
   action :upgrade
 end
 
-package "dev-python/python-swiftclient" do
+package 'dev-python/python-swiftclient' do
   action :upgrade
 end
 
-package "dev-python/python-glanceclient" do
+package 'dev-python/python-glanceclient' do
   action :upgrade
 end
 
@@ -109,14 +106,14 @@ service 'glance-api' do
 end
 
 mysql_user node[:glance][:db_username] do
-  action :create
-  password node[:glance][:db_password]
-  force_password true
+  password        node[:glance][:db_password]
+  force_password  true
+  action          :create
 end
 
 mysql_database node[:glance][:db_instance] do
-  action :create
-  owner node[:glance][:db_username]
+  action  :create
+  owner   node[:glance][:db_username]
 end
 
 keystone_user node[:glance][:admin_user] do
@@ -154,7 +151,7 @@ connection = 'mysql://%s:%s@%s/%s' % [
   node[:glance][:db_username],
   node[:glance][:db_password],
   node[:glance][:db_hostname],
-  node[:glance][:db_instance],
+  node[:glance][:db_instance]
 ]
 
 template '/etc/glance/glance-registry.conf' do
