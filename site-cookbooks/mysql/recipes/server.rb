@@ -19,40 +19,13 @@
 
 include_recipe "gentoo"
 
+unless node[:gentoo][:use_flags].include?("mysql")
+  node.default[:gentoo][:use_flags] << "mysql"
+  generate_make_conf "added mysql USE flag"
+end
+
 gentoo_package_keywords "dev-db/mariadb" do
   keywords "~amd64"
-end
-
-packages = %w[
-  dev-libs/libaio 
-  dev-lang/perl 
-  perl-core/Data-Dumper 
-  virtual/perl-Data-Dumper 
-  perl-core/File-Temp 
-  virtual/perl-File-Temp
-  dev-perl/Net-Daemon 
-  virtual/perl-Storable 
-  virtual/perl-File-Spec 
-  virtual/perl-Sys-Syslog 
-  virtual/perl-Time-HiRes 
-  virtual/perl-Getopt-Long 
-  dev-perl/PlRPC dev-perl/DBI 
-  app-arch/libarchive 
-  dev-db/mysql-init-scripts 
-  net-misc/curl dev-util/cmake 
-  dev-db/mariadb virtual/mysql 
-  dev-perl/DBD-mysql
-]
-=begin
-packages.each do |pkg|
-  package pkg do
-    action :upgrade
-  end
-end
-=end
-
-gentoo_package_use "dev-db/mariadb" do
-  use "-perl"
 end
 
 package "dev-db/mariadb" do
@@ -65,8 +38,8 @@ template "/root/.my.cnf" do
   group "root"
   mode "0600"
   variables(
-    :password => node[:mariadb][:password][:root],
-    :host => "127.0.0.1",
+    :password => node[:mysql][:password][:root],
+    :host => node[:mysql][:host],
     :encoding => "utf8"
   )
 end
@@ -87,3 +60,12 @@ service "mysql" do
   action [ :enable, :start ]
   subscribes :restart, resources(:package => "dev-db/mariadb", :template => "/etc/mysql/my.cnf")
 end
+
+chef_gem "mysql" do
+  action :install
+end
+
+mysql_database "test" do
+  action :delete
+end
+

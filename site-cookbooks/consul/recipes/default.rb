@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: nginx
+# Cookbook Name:: consul
 # Recipe:: default
 #
 # Copyright 2015, Leonid Laboshin
@@ -16,5 +16,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "gentoo"
-USE="uswgi nginx_modules_http_memcached nginx_modules_http_uwsgi nginx_modules_http_gzip nginx_modules_http_gunzip" emerge --ask nginx

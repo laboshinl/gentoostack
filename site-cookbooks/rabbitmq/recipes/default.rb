@@ -37,3 +37,20 @@ service "rabbitmq" do
   subscribes :restart, resources(:template => "/etc/rabbitmq/rabbitmq.config")
   subscribes :restart, resources(:package => "net-misc/rabbitmq-server")
 end
+
+bash 'configure rabbitmq users' do
+  user  'root'
+  group 'root'
+  code <<-EOF
+    if rabbitmqctl list_users | egrep -q '^#{node[:rabbitmq][:username]}[[:space:]]+'
+    then
+      rabbitmqctl change_password \
+        #{node[:rabbitmq][:username]} \
+        #{node[:rabbitmq][:password]}
+    else
+      rabbitmqctl add_user \
+        #{node[:rabbitmq][:username]} \
+        #{node[:rabbitmq][:password]}
+    fi
+  EOF
+end
