@@ -6,6 +6,6 @@ end
 
 actions :create, :delete
 
-attribute :host,           :kind_of => String, :default => "localhost"
-attribute :password,       :kind_of => String, :default => node[:mysql][:password][:root]
+attribute :host,           :kind_of => String, :default => 'localhost'
+attribute :password,       :kind_of => String, :default => node['mysql']['password']['root']
 attribute :force_password, :kind_of => [TrueClass, FalseClass], :default => false

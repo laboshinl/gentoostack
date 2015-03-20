@@ -17,55 +17,32 @@
 # limitations under the License.
 #
 
-include_recipe "gentoo"
+include_recipe 'mysql::client'
 
-unless node[:gentoo][:use_flags].include?("mysql")
-  node.default[:gentoo][:use_flags] << "mysql"
-  generate_make_conf "added mysql USE flag"
+unless node['gentoo']['use_flags'].include?('mysql')
+  node.default['gentoo']['use_flags'].push 'mysql'
+  generate_make_conf 'added mysql USE flag'
 end
 
-gentoo_package_keywords "dev-db/mariadb" do
-  keywords "~amd64"
-end
-
-package "dev-db/mariadb" do
-  action :upgrade
-end
-
-template "/root/.my.cnf" do
-  source "root/dotmy.cnf.erb"
-  owner "root"
-  group "root"
-  mode "0600"
-  variables(
-    :password => node[:mysql][:password][:root],
-    :host => node[:mysql][:host],
-    :encoding => "utf8"
-  )
-end
-
-template "/etc/mysql/my.cnf" do
-  source "etc/mysql/my.cnf.erb"
+template '/etc/mysql/my.cnf' do
+  source 'etc/mysql/my.cnf.erb'
   action :create
 end
 
-execute "emerge --config dev-db/mariadb" do
-  user  "root"
-  group "root"
-  creates "/var/lib/mysql/mysql"
+execute 'emerge --config dev-db/mariadb' do
+  user 'root'
+  group 'root'
+  creates '/var/lib/mysql/mysql'
 end
 
-service "mysql" do
+service 'mysql' do
   supports :status => true, :restart => true
   action [ :enable, :start ]
-  subscribes :restart, resources(:package => "dev-db/mariadb", :template => "/etc/mysql/my.cnf")
+  subscribes :restart, 'package[dev-db/mariadb]'
+  subscribes :restart, 'template[/etc/mysql/my.cnf]'
 end
 
-chef_gem "mysql" do
-  action :install
-end
-
-mysql_database "test" do
+mysql_database 'test' do
   action :delete
 end
 

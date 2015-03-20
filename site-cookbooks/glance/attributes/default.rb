@@ -20,9 +20,9 @@
 #   WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-default['rabbitmq']['host']     = "127.0.0.1"
-default['rabbitmq']['username'] = "127.0.0.1"
-default['rabbitmq']['password'] = "127.0.0.1"
+default['rabbitmq']['host']     = '127.0.0.1'
+default['rabbitmq']['username'] = '127.0.0.1'
+default['rabbitmq']['password'] = '127.0.0.1'
 
 default['glance']['db_username']       = 'glance'
 default['glance']['db_password']       = 'GLANCE_DBPASS'

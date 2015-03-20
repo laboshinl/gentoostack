@@ -9,7 +9,7 @@ registry_host = 0.0.0.0
 registry_port = 9191
 registry_client_protocol = http
 rpc_backend = rabbit
-<%= render "rabbitmq_snippet.erb" %>
+<%= render 'rabbitmq_snippet.erb' %>
 rabbit_notification_exchange = glance
 qpid_notification_exchange = glance
 qpid_notification_topic = notifications
@@ -49,9 +49,9 @@ scrub_time = 43200
 scrubber_datadir = /var/lib/glance/scrubber
 image_cache_dir = /var/lib/glance/image-cache/
 
-<%= render "database_snippet.erb" %>
+<%= render 'database_snippet.erb' %>
 
-<%= render "keystone_authtoken_snippet.erb" %>
+<%= render 'keystone_authtoken_snippet.erb' %>
 
 [paste_deploy]
 flavor = keystone

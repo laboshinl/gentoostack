@@ -6,7 +6,7 @@ description      'Installs/Configures keystone'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.0'
 
-supports         "gentoo"
-%w[gentoo mysql].each do |dep|
+supports 'gentoo'
+%w[gentoo mysql libcloud].each do |dep|
   depends dep
 end

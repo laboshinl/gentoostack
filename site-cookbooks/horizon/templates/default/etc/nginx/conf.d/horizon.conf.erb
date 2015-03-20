@@ -1,0 +1,14 @@
+server {
+    listen 80;
+    server_name horizon;
+    client_max_body_size 50M;
+    location / {
+        uwsgi_pass unix:/tmp/horizon.sock;
+        include uwsgi_params;
+    }
+    location ~ ^/static/ {
+    root /usr/lib64/python2.7/site-packages/openstack_dashboard;
+    expires 2h;
+    access_log   off;
+    }
+}

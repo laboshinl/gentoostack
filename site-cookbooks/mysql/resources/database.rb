@@ -7,4 +7,4 @@ end
 actions :create, :delete
 
 attribute :owner,      :kind_of => String
-attribute :owner_host, :kind_of => String, :default => "localhost"
+attribute :owner_host, :kind_of => String, :default => 'localhost'

@@ -16,54 +16,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "gentoo"
-include_recipe "mysql::client"
-include_recipe "keystone::empty"
+include_recipe 'gentoo'
+include_recipe 'mysql::client'
+include_recipe 'keystone::empty'
 
-unless node[:gentoo][:use_flags].include?("sqlite")
-  node.default[:gentoo][:use_flags] << "sqlite"
-  generate_make_conf "added mysql USE flag"
+unless node[:gentoo][:use_flags].include?('sqlite')
+  node.default[:gentoo][:use_flags] << 'sqlite'
+  generate_make_conf 'added mysql USE flag'
 end
 
-gentoo_package_mask "~dev-python/routes-2.0" do
+gentoo_package_mask '~dev-python/routes-2.0' do
   action :create
 end
 
-packages = [
-  "dev-python/oslo-rootwrap",
-  # required by sys-cluster/cinder-2014.2.2
-  # required by cinder (argument)
-  "dev-python/rtslib-fb",
-  # required by dev-python/taskflow-0.5.0
-  # required by sys-cluster/cinder-2014.2.2
-  # required by cinder (argument)
-  "dev-python/networkx",
-  # required by cinder (argument)
-  "sys-cluster/cinder",
-  # required by sys-cluster/cinder-2014.2.2
-  # required by cinder (argument)
-  "dev-python/taskflow",
-  # required by dev-python/taskflow-0.5.0
-  # required by sys-cluster/cinder-2014.2.2
-  # required by cinder (argument)
-  "dev-python/futures",
-  # required by sys-cluster/cinder-2014.2.2
-  # required by cinder (argument)
-  "dev-python/python-barbicanclient",
-]
+packages = %w(dev-python/oslo-rootwrap dev-python/rtslib-fb dev-python/networkx sys-cluster/cinder dev-python/taskflow dev-python/futures dev-python/python-barbicanclient)
 
-packages.each_with_index do |package, index|
+packages.each do |package|
   gentoo_package_keywords package do
-    keywords "~amd64"
+    keywords '~amd64'
   end
 end
 
 
-package "sys-cluster/cinder" do
+package 'sys-cluster/cinder' do
   action :upgrade
 end
 
-package "dev-python/mysql-python" do
+package 'dev-python/mysql-python' do
   action :upgrade
 end
 

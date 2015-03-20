@@ -1,0 +1,40 @@
+UWSGI_SOCKET=/tmp/horizon.sock
+
+# Enable threads?
+#
+UWSGI_THREADS=1
+
+# The path to your uWSGI application.
+#
+UWSGI_PROGRAM=/usr/lib64/python2.7/site-packages/openstack_dashboard/wsgi/wsgi.py
+
+# The path to your uWSGI xml config file.
+#
+UWSGI_XML_CONFIG=
+
+# The number of child processes to spawn. The default is 1.
+#
+UWSGI_CHILDREN=1
+
+# The log file path. If empty logging is disabled
+#
+UWSGI_LOG_FILE=/tmp/uwsgi.log
+
+# If you want to run your application inside a chroot then specify the
+# directory here. Leave this blank otherwise.
+#
+UWSGI_CHROOT=
+
+# If you want to run your application from a specific directiory specify
+# it here. Leave this blank otherwise.
+#
+UWSGI_DIR=/usr/lib64/python2.7/site-packages/openstack_dashboard/
+
+# The user and group to run your application as. If you do not specify these,
+# the application will be run as root:root.
+#
+UWSGI_USER=uwsgi
+
+# Additional options you might want to pass to uWSGI
+#
+UWSGI_EXTRA_OPTIONS=

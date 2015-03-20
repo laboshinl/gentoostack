@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 include_recipe 'keystone::empty'
 include_recipe 'mysql::client'
 include_recipe 'gentoo'
@@ -69,7 +70,7 @@ packages = %w[
   dev-python/jsonpointer
 ]
 
-packages.each do package
+packages.each do |package|
   gentoo_package_keywords(package) do
     keywords '~amd64'
   end
@@ -81,16 +82,18 @@ end
 
 gentoo_package_mask '~dev-python/routes-2.0'
 
-package 'app-admin/glance'
+packages= %w[
+  app-admin/glance dev-python/mysql-python
+  dev-python/python-swiftclient
+  dev-python/python-glanceclient
+]
 
-package 'dev-python/mysql-python'
+packages.each do |package|
+  package(package)
+end
 
-package 'dev-python/python-swiftclient'
-
-package 'dev-python/python-glanceclient'
-
-%w[glance-registry glance-api].each do |srv|
-  service(srv) do
+%w[glance-registry glance-api].each do |service|
+  service(service) do
     action :enable
   end
 end

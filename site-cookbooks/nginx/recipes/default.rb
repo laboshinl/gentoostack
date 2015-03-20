@@ -16,5 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "gentoo"
-USE="uswgi nginx_modules_http_memcached nginx_modules_http_uwsgi nginx_modules_http_gzip nginx_modules_http_gunzip" emerge --ask nginx
+include_recipe 'gentoo'
+#USE="uswgi nginx_modules_http_memcached nginx_modules_http_uwsgi nginx_modules_http_gzip nginx_modules_http_gunzip" emerge --ask nginx
+
+template '/etc/nginx/nginx.conf' do
+  source 'etc/nginx/nginx.conf.erb'
+  notifies :restart, 'service[nginx]'
+end
+
+directory '/etc/nginx/conf.d'
+
+service 'nginx' do
+  action :enable
+end

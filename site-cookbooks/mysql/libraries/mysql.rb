@@ -14,7 +14,7 @@ module Opscode
       password_ok = false
       select_query =
         "SELECT `Password`, PASSWORD('#{mysql_dbh.quote(password)}') " +
-          "FROM `mysql`.`user` WHERE " +
+            'FROM `mysql`.`user` WHERE ' +
           "`User` = '#{mysql_dbh.quote(user.name)}' AND " +
           "`Host` = '#{mysql_dbh.quote(user.host)}'"
       Chef::Log.debug("MySQL query: #{select_query}")
@@ -62,7 +62,7 @@ module Opscode
       mysql_dbh.query("SHOW GRANTS FOR #{handle}").each { |row|
         if row[0] =~ /\AGRANT (.*) ON [`'"]?(\S+?)[`'"]?(\.\S+)? TO .+\Z/
           @@grants[handle][$2] = $1.split(/,\s*/).map { |p|
-            p == "ALL PRIVILEGES" ? "ALL" : p
+            p == 'ALL PRIVILEGES' ? 'ALL' : p
           }
         end
       }
@@ -72,18 +72,18 @@ module Opscode
     def mysql_manage_privileges(action, grant, privileges)
       handle = mysql_user_handle(grant, :grant)
       @@grants[handle] = nil
-      db_escaped = grant.database == "*" ? "*" : "`#{mysql_dbh.quote(grant.database)}`"
+      db_escaped = grant.database == '*' ? '*' : "`#{mysql_dbh.quote(grant.database)}`"
       privilege_query = if action == :delete
-        privileges += ["GRANT OPTION"] if grant.grant_option
-        Chef::Log.info("Revoking #{privileges.join(", ")} privileges on MySQL database \"#{grant.database}\" from #{grant.user}@#{grant.user_host}.")
-        "REVOKE #{privileges.join(", ")} ON #{db_escaped}.* FROM #{handle}"
+        privileges += ['GRANT OPTION'] if grant.grant_option
+        Chef::Log.info("Revoking #{privileges.join(', ')} privileges on MySQL database \"#{grant.database}\" from #{grant.user}@#{grant.user_host}.")
+        "REVOKE #{privileges.join(', ')} ON #{db_escaped}.* FROM #{handle}"
       else
         if grant.grant_option
-          Chef::Log.info("Granting #{privileges.join(", ")} privileges on MySQL database \"#{grant.database}\" to #{grant.user}@#{grant.user_host} WITH GRANT OPTION.")
-          "GRANT #{privileges.join(", ")} ON #{db_escaped}.* TO #{handle} WITH GRANT OPTION"
+          Chef::Log.info("Granting #{privileges.join(', ')} privileges on MySQL database \"#{grant.database}\" to #{grant.user}@#{grant.user_host} WITH GRANT OPTION.")
+          "GRANT #{privileges.join(', ')} ON #{db_escaped}.* TO #{handle} WITH GRANT OPTION"
         else
-          Chef::Log.info("Granting #{privileges.join(", ")} privileges on MySQL database \"#{grant.database}\" to #{grant.user}@#{grant.user_host}.")
-          "GRANT #{privileges.join(", ")} ON #{db_escaped}.* TO #{handle}"
+          Chef::Log.info("Granting #{privileges.join(', ')} privileges on MySQL database \"#{grant.database}\" to #{grant.user}@#{grant.user_host}.")
+          "GRANT #{privileges.join(', ')} ON #{db_escaped}.* TO #{handle}"
         end
       end
       Chef::Log.debug("MySQL query: #{privilege_query}")
@@ -97,7 +97,7 @@ module Opscode
       new_db_privileges = [grant.privileges].flatten.map { |p| p.upcase }
       case action
       when :create
-        unless current_db_privileges.include?("ALL")
+        unless current_db_privileges.include?('ALL')
           missing_privileges = new_db_privileges - current_db_privileges
           unless missing_privileges.empty?
             mysql_manage_privileges(:create, grant, missing_privileges)
@@ -108,8 +108,8 @@ module Opscode
           Chef::Log.debug("MySQL user #{grant.user}@#{grant.user_host} has ALL privileges on database \"#{grant.database}\".")
         end
       when :delete
-        if new_db_privileges.include?("ALL") && !current_db_privileges.empty?
-          mysql_manage_privileges(:delete, grant, "ALL")
+        if new_db_privileges.include?('ALL') && !current_db_privileges.empty?
+          mysql_manage_privileges(:delete, grant, 'ALL')
         else
           unwanted_privileges = current_db_privileges & new_db_privileges
           unless unwanted_privileges.empty?
@@ -143,11 +143,11 @@ module Opscode
 
     def mysql_dbh
       return @@dbh if @@dbh
-      require "mysql"
-      host = "localhost"
+      require 'mysql'
+      host = 'localhost'
       password = nil
       oksection = false
-      File.read("/root/.my.cnf").split("\n").each { |line|
+      File.read('/root/.my.cnf').split("\n").each { |line|
         if line.strip =~ /\A\[(\S+)\]\Z/
           oksection = %w(mysql client).include?($1)
         elsif oksection && line.strip =~ /\Ahost\s*=\s*(\S+)\Z/
@@ -156,7 +156,7 @@ module Opscode
           password = $1
         end
       }
-      @@dbh = ::Mysql.real_connect(host, "root", password)
+      @@dbh = ::Mysql.real_connect(host, 'root', password)
     end
 
     def mysql_users

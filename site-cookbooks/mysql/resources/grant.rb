@@ -6,10 +6,10 @@ end
 
 actions :create, :delete
 
-attribute :privileges,   :kind_of => [String, Array], :default => "ALL"
+attribute :privileges,   :kind_of => [String, Array], :default => 'ALL'
 attribute :database,     :kind_of => String, :required => true
 attribute :user,         :kind_of => String, :required => true
-attribute :user_host,    :kind_of => String, :default => "localhost"
+attribute :user_host,    :kind_of => String, :default => 'localhost'
 attribute :grant_option, :kind_of => [TrueClass, FalseClass], :default => false
 
 # TODO attribute :function,     :kind_of => String

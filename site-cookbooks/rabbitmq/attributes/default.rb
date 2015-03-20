@@ -1,2 +1,2 @@
-default[:rabbitmq][:username] = "openstack"
-default[:rabbitmq][:password] = "rabbitPa55word"
+default[:rabbitmq][:username] = 'openstack'
+default[:rabbitmq][:password] = 'rabbitPa55word'
