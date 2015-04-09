@@ -30,7 +30,7 @@ gentoo_package_mask '~dev-python/routes-2.0' do
   action :create
 end
 
-packages = %w(dev-python/oslo-config dev-python/keystonemiddleware dev-python/pbr dev-python/paste dev-python/netifaces dev-python/kombu dev-python/jsonschema dev-python/python-keystoneclient dev-python/oslo-db dev-python/pyjwt dev-python/alembic dev-python/iso8601 dev-python/oslo-middleware dev-python/stevedore dev-python/oslo-context dev-python/posix_ipc dev-python/prettytable dev-python/oslo-serialization dev-python/repoze-lru dev-python/netaddr dev-python/dogpile-core dev-python/dogpile-cache dev-python/oslo-utils dev-python/sqlalchemy-migrate dev-python/eventlet dev-python/anyjson dev-python/py-amqp dev-python/oslo-messaging dev-python/keystone dev-python/routes dev-python/oslo-i18n dev-python/oauthlib dev-python/pycadf sys-auth/keystone)
+packages = %w(dev-python/six dev-python/oslo-config dev-python/keystonemiddleware dev-python/pbr dev-python/paste dev-python/netifaces dev-python/kombu dev-python/jsonschema dev-python/python-keystoneclient dev-python/oslo-db dev-python/pyjwt dev-python/alembic dev-python/iso8601 dev-python/oslo-middleware dev-python/stevedore dev-python/oslo-context dev-python/posix_ipc dev-python/prettytable dev-python/oslo-serialization dev-python/repoze-lru dev-python/netaddr dev-python/dogpile-core dev-python/dogpile-cache dev-python/oslo-utils dev-python/sqlalchemy-migrate dev-python/eventlet dev-python/anyjson dev-python/py-amqp dev-python/oslo-messaging dev-python/keystone dev-python/routes dev-python/oslo-i18n dev-python/oauthlib dev-python/pycadf sys-auth/keystone)
 
 packages.each do |package|
   gentoo_package_keywords package do
@@ -89,8 +89,6 @@ end
 
 libcloud_api_wait "localhost" do
   port "5000"
-# timeout 300
-# delay 2
 end
 
 keystone_user 'admin' do
@@ -173,7 +171,7 @@ keystone_endpoint 'keystone' do
   os_endpoint node['keystone']['os_endpoint']
   os_token    node['keystone']['os_token']
   service     'keystone'
-  publicurl   lazy { "http://#{node['keystone']['host']}:5000/v2.0" }
-  internalurl lazy { "http://#{node['keystone']['host']}:5000/v2.0" }
-  adminurl    lazy { "http://#{node['keystone']['host']}:35357/v2.0" }
+  publicurl   "http://#{node['keystone']['host']}:5000/v2.0"
+  internalurl "http://#{node['keystone']['host']}:5000/v2.0"
+  adminurl    "http://#{node['keystone']['host']}:35357/v2.0"
 end

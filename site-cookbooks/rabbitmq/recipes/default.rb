@@ -16,25 +16,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 include_recipe 'gentoo'
 
 gentoo_package_keywords 'net-misc/rabbitmq-server' do
   keywords '~amd64'
 end
 
-package 'net-misc/rabbitmq-server' do
-  action :upgrade
-end
+package 'net-misc/rabbitmq-server'
 
-template '/etc/rabbitmq/rabbitmq.config' do
-  source 'etc/rabbitmq/rabbitmq.config.erb'
-  action :create
-end
+#template '/etc/rabbitmq/rabbitmq.config' do
+#  source 'etc/rabbitmq/rabbitmq.config.erb'
+#end
 
 service 'rabbitmq' do
   supports :status => true, :restart => true
   action [ :enable, :start ]
-  subscribes :restart, resources(:template => '/etc/rabbitmq/rabbitmq.config')
+#  subscribes :restart, resources(:template => '/etc/rabbitmq/rabbitmq.config')
   subscribes :restart, resources(:package => 'net-misc/rabbitmq-server')
 end
 

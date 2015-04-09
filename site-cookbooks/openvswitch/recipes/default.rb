@@ -16,3 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+execute 'emerge --config openvswitch' do
+  creates '/var/lib/openvswitch/conf.db'
+end

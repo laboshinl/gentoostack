@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: mariadb
+# Cookbook Name:: cinder
 # Recipe:: default
 #
 # Copyright 2015, Leonid Laboshin
@@ -17,30 +17,33 @@
 # limitations under the License.
 #
 
-include_recipe 'mysql::client'
+include_recipe 'gentoo'
 
-unless node['gentoo']['use_flags'].include?('mysql')
-  node.default['gentoo']['use_flags'].push 'mysql'
-  generate_make_conf 'added mysql USE flag'
+package "net-misc/openntpd"
+
+template "/etc/ntpd.conf" do
+  source "ntpd.conf.erb"
+  owner "root"
+  group "root"
+  mode "0600"
+  variables(
+    :listen_on => [node[:ntpd][:listen_on]].flatten,
+    :pool => node[:ntpd][:pool]
+  )
 end
 
-template '/etc/mysql/my.cnf' do
-  source 'etc/mysql/my.cnf.erb'
-  action :create
+service "ntpd" do
+  action [:enable, :start]
+  subscribes :restart, 'package[net-misc/openntpd]'
+  subscribes :restart, 'template[/etc/ntpd.conf]'
 end
 
-execute 'emerge --config dev-db/mariadb-galera' do
-  creates '/var/lib/mysql/mysql'
+if node.run_list?("recipe[iptables]")
+  iptables_rule "ntpd" do
+    action node[:ntpd][:listen_on].empty? ? :delete : :create
+  end
 end
 
-service 'mysql' do
-  supports :status => true, :restart => true
-  action [ :enable, :start ]
-  subscribes :restart, 'package[dev-db/mariadb-galera]'
-  subscribes :restart, 'template[/etc/mysql/my.cnf]'
+if node.run_list?("recipe[nagios::nrpe]")
+  nrpe_command "ntpd"
 end
-
-mysql_database 'test' do
-  action :delete
-end
-

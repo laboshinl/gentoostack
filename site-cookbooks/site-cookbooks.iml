@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="RUBY_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/rabbitmq" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/neutron" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/horizon" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/glance" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/nginx" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/cinder" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/consul" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/openvswitch" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/keystone" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/mysql" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/nova" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/openntpd" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/iptables" type="cookbooks-root" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

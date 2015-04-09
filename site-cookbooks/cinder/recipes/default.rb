@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 include_recipe 'gentoo'
 include_recipe 'mysql::client'
 include_recipe 'keystone::empty'
@@ -29,7 +30,7 @@ gentoo_package_mask '~dev-python/routes-2.0' do
   action :create
 end
 
-packages = %w(dev-python/oslo-rootwrap dev-python/rtslib-fb dev-python/networkx sys-cluster/cinder dev-python/taskflow dev-python/futures dev-python/python-barbicanclient)
+packages = %w(dev-python/oslo-rootwrap dev-python/rtslib-fb dev-python/networkx sys-cluster/cinder dev-python/taskflow dev-python/futures dev-python/python-barbicanclient dev-python/python-novaclient)
 
 packages.each do |package|
   gentoo_package_keywords package do
