@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: cinder
+# Cookbook Name:: iptables
 # Recipe:: default
 #
-# Copyright 2015, Leonid Laboshin
+# Copyright 2008-2009, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,38 +27,36 @@ package 'net-firewall/iptables'
 
 cookbook_file "/etc/conf.d/iptables" do
   source "iptables.confd"
-  owner "root"
-  group "root"
   mode "0600"
 end
 
-execute "rebuild-iptables" do
-  command "/usr/local/sbin/rebuild-iptables"
+execute 'rebuild-iptables' do
+  command '/usr/sbin/rebuild-iptables'
   action :nothing
 end
 
-directory "/etc/iptables.d" do
-  owner "root"
-  group "root"
-  mode "0700"
+directory '/etc/iptables.d' do
+  action :create
 end
 
-template "/usr/local/sbin/rebuild-iptables" do
-  source "rebuild-iptables.rb.erb"
-  owner "root"
-  group "root"
-  mode "0700"
-  variables(:ulogd => node.run_list?("recipe[iptables::ulogd]"))
+#execute '/sbin/iptables-save >> /var/lib/iptables/rules-save' do
+#  not_if { File.size?("/var/lib/iptables/rules-save") }
+#end
+
+template '/usr/sbin/rebuild-iptables' do
+  source 'rebuild-iptables.erb'
+  mode '0755'
+  variables(
+    :hashbang => ::File.exist?('/usr/bin/ruby') ? '/usr/bin/ruby' : '/opt/chef/embedded/bin/ruby'
+  )
 end
 
 iptables_rule "all_established"
+
 iptables_rule "all_icmp"
+
 iptables_rule "sshd" do
   variables(:sshd_port => '22')
-end
-
-execute "/usr/local/sbin/rebuild-iptables" do
-  not_if { File.size?("/var/lib/iptables/rules-save") }
 end
 
 service "iptables" do

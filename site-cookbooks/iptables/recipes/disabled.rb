@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: openvswitch
+# Cookbook Name:: iptables
 # Recipe:: default
 #
-# Copyright 2015, Leonid Laboshin
+# Copyright 2008-2009, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,20 +17,9 @@
 # limitations under the License.
 #
 
-include_recipe 'gentoo'
+package 'iptables'
 
-gentoo_package_use 'net-misc/openvswitch' do
-  use '-modules'
-end
-
-package 'net-misc/openvswitch'
-
-execute 'emerge --config openvswitch' do
-  creates '/var/lib/openvswitch/conf.db'
-end
-
-%w[ovsdb-server ovs-vswitchd].each do |service|
-  service(service) do
-    action [:enable,:start]
-  end
+service 'iptables' do
+  action [:disable, :stop]
+  supports :status => true, :start => true, :stop => true, :restart => true
 end

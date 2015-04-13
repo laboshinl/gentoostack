@@ -40,7 +40,7 @@ end
 
 if node.run_list?("recipe[iptables]")
   iptables_rule "ntpd" do
-    action node[:ntpd][:listen_on].empty? ? :delete : :create
+    action node[:ntpd][:listen_on].empty? ? :disable : :enable
   end
 end
 

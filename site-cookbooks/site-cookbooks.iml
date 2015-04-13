@@ -16,6 +16,8 @@
       <sourceFolder url="file://$MODULE_DIR$/nova" type="cookbooks-root" />
       <sourceFolder url="file://$MODULE_DIR$/openntpd" type="cookbooks-root" />
       <sourceFolder url="file://$MODULE_DIR$/iptables" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/iptables-old" type="cookbooks-root" />
+      <sourceFolder url="file://$MODULE_DIR$/iptables/test/fixtures/cookbooks/iptables_secure" type="cookbooks-root" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
